@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.src.database.db import Base
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, DateTime, func
 
 
 
@@ -15,6 +15,11 @@ class User(Base):
     courses: Mapped[list["Course"]] = relationship(
         secondary="user_courses",
         back_populates="users"
+    )
+    
+    reviews: Mapped[list["Reviews"]] = relationship(
+        back_populates="users",
+        cascade="all, delete-orphan"
     )
 
 
@@ -36,6 +41,11 @@ class Course(Base):
         cascade="all, delete-orphan"
     )
 
+    reviews: Mapped[list["Reviews"]] = relationship(
+        back_populates="courses",
+        cascade="all, delete-orphan"
+    )
+
 
 
 class UserCourses(Base):
@@ -44,6 +54,21 @@ class UserCourses(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
     course_id: Mapped[int] = mapped_column(ForeignKey('courses.id'), primary_key=True)
 
+
+
+class Reviews(Base):
+    __tablename__ = "reviews"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
+    comment: Mapped[str] = mapped_column(nullable=False) 
+    rate: Mapped[int] = mapped_column(nullable=False)
+    created_at: Mapped[DateTime] = mapped_column(default=func.now())
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
+
+    user: Mapped["User"] = relationship(back_populates="reviews")
+    course: Mapped["Course"] = relationship(back_populates="reviews")
 
 
 class Sections(Base):
@@ -84,6 +109,10 @@ class Lessons(Base):
 
     subsection_id: Mapped[int] = mapped_column(ForeignKey("subsections.id"))
     subsection = Mapped["Subsections"] = relationship(back_populates="lessons")
+
+
+
+
 
 
    
