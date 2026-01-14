@@ -8,7 +8,7 @@ class Config:
     ACCESS_TOKEN_EXPIRE_MINUTES: str
     URL_DATABASE: str
 
-    app_name: str = "Guide-Istanbul-App"
+    app_name: str = "Course-App"
     debug: bool = True
     cors_origins: list = field(default_factory=lambda: ["*"])
 

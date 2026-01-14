@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.src.database.db import Base
 from sqlalchemy import ForeignKey, DateTime, func
+from datetime import datetime
 
 
 
@@ -18,7 +19,7 @@ class User(Base):
     )
     
     reviews: Mapped[list["Reviews"]] = relationship(
-        back_populates="users",
+        back_populates="user",
         cascade="all, delete-orphan"
     )
 
@@ -42,7 +43,7 @@ class Course(Base):
     )
 
     reviews: Mapped[list["Reviews"]] = relationship(
-        back_populates="courses",
+        back_populates="course",
         cascade="all, delete-orphan"
     )
 
@@ -62,7 +63,7 @@ class Reviews(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     comment: Mapped[str] = mapped_column(nullable=False) 
     rate: Mapped[int] = mapped_column(nullable=False)
-    created_at: Mapped[DateTime] = mapped_column(default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
@@ -108,7 +109,7 @@ class Lessons(Base):
     description: Mapped[str] = mapped_column(nullable=False)
 
     subsection_id: Mapped[int] = mapped_column(ForeignKey("subsections.id"))
-    subsection = Mapped["Subsections"] = relationship(back_populates="lessons")
+    subsection: Mapped["Subsections"] = relationship(back_populates="lessons")
 
 
 

@@ -1,5 +1,4 @@
 from backend.src.database.db import AsyncSession
-from backend.src.api.schemas import UserCreate
 from backend.src.database.models import User
 from fastapi import HTTPException, status
 from sqlalchemy import select
@@ -7,9 +6,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from backend.src.core.jwt_token import create_jwt_token
 
 
-async def register_user(
+async def register_new_user(
         session: AsyncSession,
-        user_create: UserCreate
+        user_create: str
 ):
     result = await session.execute(
         select(User)
@@ -37,7 +36,10 @@ async def register_user(
     return {"message": "Kayıt başarılı."}
 
 
-async def auth_user(credents: OAuth2PasswordRequestForm, session: AsyncSession):
+async def auth_user(
+        credents: OAuth2PasswordRequestForm, 
+        session: AsyncSession
+):
     result = await session.execute(
         select(User)
         .where(User.username == credents.username)

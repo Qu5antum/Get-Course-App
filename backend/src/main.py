@@ -1,0 +1,33 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from backend.src.core.config import settings
+from backend.src.database.db import init_models
+from backend.src.api.routes.user_route import router as user_route
+import asyncio
+import uvicorn
+
+
+
+app = FastAPI(
+    title = settings.app_name,
+    debug=settings.debug,
+    docs_url="/docs"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = settings.cors_origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
+
+
+app.include_router(user_route)
+
+
+if __name__ == "__main__":
+    asyncio.run(init_models())
+    uvicorn.run(
+        "backend.src.main:app", host="127.0.0.1", port=8000, reload=True
+)

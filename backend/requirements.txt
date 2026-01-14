@@ -1,4 +1,9 @@
 fastapi 
 sqlalchemy
+pydantic
 environs
 asyncpg
+pyjwt
+asyncio 
+uvicorn
+python-multipart
