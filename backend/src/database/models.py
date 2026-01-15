@@ -22,7 +22,7 @@ class User(Base):
         back_populates="author"
     )
     
-    reviews: Mapped[list["Reviews"]] = relationship(
+    reviews: Mapped[list["Review"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
     )
@@ -35,6 +35,10 @@ class Course(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
+
+    image_url: Mapped[str | None] = mapped_column(
+        nullable=True
+    )
 
     author_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE"), 
@@ -50,12 +54,12 @@ class Course(Base):
         back_populates="courses"
     )
 
-    sections: Mapped[list["Sections"]] = relationship(
+    sections: Mapped[list["Section"]] = relationship(
         back_populates="course",
         cascade="all, delete-orphan"
     )
 
-    reviews: Mapped[list["Reviews"]] = relationship(
+    reviews: Mapped[list["Review"]] = relationship(
         back_populates="course",
         cascade="all, delete-orphan"
     )
@@ -70,7 +74,7 @@ class UserCourses(Base):
 
 
 
-class Reviews(Base):
+class Review(Base):
     __tablename__ = "reviews"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
@@ -85,7 +89,7 @@ class Reviews(Base):
     course: Mapped["Course"] = relationship(back_populates="reviews")
 
 
-class Sections(Base):
+class Section(Base):
     __tablename__ = "sections"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
@@ -94,48 +98,17 @@ class Sections(Base):
     course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
     course: Mapped["Course"] = relationship(back_populates="sections")
 
-    subsections: Mapped[list["Subsections"]] = relationship(
+    lessons: Mapped[list["Lesson"]] = relationship(
         back_populates="section",
         cascade="all, delete-orphan"
     )
 
 
-class Subsections(Base):
-    __tablename__ = "subsections"
-
-    id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
-    title: Mapped[str] = mapped_column(nullable=False)
-
-    section_id: Mapped[int] = mapped_column(ForeignKey("sections.id"))
-    section: Mapped["Sections"] = relationship(back_populates="subsections")
-
-    lessons: Mapped[list["Lessons"]] = relationship(
-        back_populates="subsection", 
-        cascade="all, delete-orphan"
-    )
-
-
-class Lessons(Base):
+class Lesson(Base):
     __tablename__ = "lessons"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     description: Mapped[str] = mapped_column(nullable=False)
 
-    subsection_id: Mapped[int] = mapped_column(ForeignKey("subsections.id"))
-    subsection: Mapped["Subsections"] = relationship(back_populates="lessons")
-
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
+    section_id: Mapped[int] = mapped_column(ForeignKey("sections.id"))
+    section: Mapped["Section"] = relationship(back_populates="lessons")

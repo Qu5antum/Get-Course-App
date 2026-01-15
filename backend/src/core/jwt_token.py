@@ -1,4 +1,3 @@
-# будет создоваться jwt token хешировние дехешерование паролей, получение пользователя через token 
 from fastapi import status, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from backend.src.core.config import settings
@@ -20,7 +19,7 @@ async def get_user_from_token(token: str = Depends(oauth2_scheme)):
         user_id: int = playload.get("sub")
         if user_id is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token!")
-        return user_id
+        return int(user_id)
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="The token has expired")
     except jwt.InvalidTokenError:
