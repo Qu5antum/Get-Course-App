@@ -11,5 +11,8 @@ async def get_current_user(
     user = await session.get(User, user.id)
 
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Kullanıcı bulunamadı.")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail="Kullanıcı bulunamadı."
+        )
     return user

@@ -7,7 +7,6 @@ import asyncio
 import uvicorn
 
 
-
 app = FastAPI(
     title = settings.app_name,
     debug=settings.debug,

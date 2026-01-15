@@ -17,6 +17,10 @@ class User(Base):
         secondary="user_courses",
         back_populates="users"
     )
+
+    created_courses: Mapped[list["Course"]] = relationship(
+        back_populates="author"
+    )
     
     reviews: Mapped[list["Reviews"]] = relationship(
         back_populates="user",
@@ -31,6 +35,15 @@ class Course(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
+
+    author_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), 
+        nullable=False
+    )
+
+    author: Mapped["User"] = relationship(
+        back_populates="created_courses"
+    )
 
     users: Mapped[list["User"]] = relationship(
         secondary="user_courses",
