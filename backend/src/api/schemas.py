@@ -19,3 +19,13 @@ class SectionCreate(BaseModel):
 
 class LessonCreate(BaseModel):
     description: str
+
+
+class CourseOut(BaseModel):
+    id: int
+    title: str
+    description: str
+    image_url: str | None
+
+    class Config:
+        from_attributes = True

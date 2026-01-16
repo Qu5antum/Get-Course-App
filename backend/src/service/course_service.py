@@ -4,6 +4,7 @@ from backend.src.database.models import Course, User, UserCourses
 from fastapi import HTTPException, status
 
 
+
 async def search_course_by_title(
         session: AsyncSession,
         title: str
@@ -55,4 +56,18 @@ async def add_course_by_user(
     await session.commit()
 
     return {"detail": "Kursa başarıyla kayıt oldunuz."}
+
+
+
+async def user_courses(
+        session: AsyncSession,
+        user: User
+):
+    result = await session.execute(
+        select(Course)
+        .join(UserCourses, UserCourses.course_id == Course.id)
+        .where(UserCourses.user_id == user.id)
+    )
+
+    return result.scalars().all()
 
