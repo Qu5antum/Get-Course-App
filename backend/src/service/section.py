@@ -1,34 +1,15 @@
-from backend.src.database.db import AsyncSession
-from backend.src.database.models import Course, Section, Lesson
 from fastapi import HTTPException, status
-from backend.src.database.models import User
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+from backend.src.database.db import AsyncSession
+from backend.src.database.models import User, Course, Section
 
-
-async def create_new_course(
-        session: AsyncSession,
-        author: str,
-        create_course: str,
-):
-    course = Course(
-        title=create_course.title,
-        description=create_course.description,
-        image_url=create_course.image_url,
-        author=author
-    )
-
-    session.add(course)
-    await session.commit()
-    await session.refresh(course)
-
-    return course
 
 
 async def create_new_section_by_course(
         session: AsyncSession,
         course_id: int,
-        create_section: str,
+        data: str,
         author: User
 ):
     course = await session.get(Course, course_id)
@@ -46,7 +27,7 @@ async def create_new_section_by_course(
         )
     
     section = Section(
-        title=create_section.title,
+        title=data.title,
         course=course
     )
 
@@ -57,11 +38,12 @@ async def create_new_section_by_course(
     return section
 
 
-async def create_new_lesson_by_section(
+
+async def update_section_by_section_id(
         session: AsyncSession,
         section_id: int,
-        create_lesson: str,
-        author: str
+        data: str,
+        author: User
 ):
     result = await session.execute(
         select(Section)
@@ -70,32 +52,22 @@ async def create_new_lesson_by_section(
     )
     section = result.scalar_one_or_none()
 
-    if not section: 
+    if not section:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Bölüm bulanamadı."
+            detail="Bölüm bulanamdı."
         )
     
-    course = section.course
-    
-    if course.author_id != author.id:
+    if section.course.author_id != author.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Yasaklı."
         )
     
-    lesson = Lesson(
-        description=create_lesson.description,
-        section=section, 
-    )
+    for field, value in data.model_dump(exclude_unset=True).items():
+        setattr(section, field, value)
 
-    session.add(lesson)
     await session.commit()
-    await session.refresh(lesson)
+    await session.refresh(section)
 
-    return lesson
-
-
-
-
-
+    return {"detail": "Değişiklikler kaydedildi"}

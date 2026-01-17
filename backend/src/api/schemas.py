@@ -13,12 +13,26 @@ class CourseCreate(BaseModel):
     image_url: str | None = None
 
 
+class CourseUpdate(BaseModel):
+    title: str | None = Field(None, min_length=5, max_length=75)
+    description: str | None = Field(None, min_length=10)
+    image_url: str | None = None
+
+
 class SectionCreate(BaseModel):
-    title: str
+    title: str = Field(min_length=5, max_length=75)
+
+
+class SectionUpdate(BaseModel):
+    title: str | None = Field(None, min_length=5, max_length=75)
 
 
 class LessonCreate(BaseModel):
-    description: str
+    description: str = Field(min_length=10)
+
+
+class LessonUpdate(BaseModel):
+    description: str | None = Field(None, min_length=10)
 
 
 class CourseOut(BaseModel):

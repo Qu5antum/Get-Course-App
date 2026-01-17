@@ -72,6 +72,13 @@ class UserCourses(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
     course_id: Mapped[int] = mapped_column(ForeignKey('courses.id'), primary_key=True)
 
+    completed: Mapped[bool] = mapped_column(default=False)
+    
+    completed_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        default=func.now(),
+    )
+
 
 
 class Review(Base):

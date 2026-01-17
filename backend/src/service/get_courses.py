@@ -9,12 +9,17 @@ async def search_course_by_title(
         session: AsyncSession,
         title: str
 ):
-    result = await session.execute(
-        select(Course)
-        .where(Course.title.ilike(f"%{title}%"))
-        .order_by(Course.title)
-        .limit(20)
-    )
+    if title:
+        result = await session.execute(
+            select(Course)
+            .where(Course.title.ilike(f"%{title}%"))
+            .order_by(Course.title)
+            .limit(20)
+        )
+    else:
+        result = await session.execute(
+            select(Course)
+        )
 
     return result.scalars().all()
 
