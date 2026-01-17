@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.orm import selectinload
 from backend.src.database.db import AsyncSession
 from backend.src.database.models import User, Course, Section
@@ -17,7 +17,7 @@ async def create_new_section_by_course(
     if not course: 
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Kurs bulanamdı."
+            detail="Kurs bulunamadı."
         )
     
     if course.author_id != author.id:
@@ -55,7 +55,7 @@ async def update_section_by_section_id(
     if not section:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Bölüm bulanamdı."
+            detail="Bölüm bulunamadı."
         )
     
     if section.course.author_id != author.id:
@@ -70,4 +70,37 @@ async def update_section_by_section_id(
     await session.commit()
     await session.refresh(section)
 
-    return {"detail": "Değişiklikler kaydedildi"}
+    return {"detail": "Değişiklikler kaydedildi."}
+
+
+async def delete_section_by_id(
+        session: AsyncSession,
+        section_id: int,
+        author: User
+):
+    result = await session.execute(
+        select(Section)
+        .options(selectinload(Section.course))
+        .where(Section.id == section_id)
+    )
+
+    section = result.scalar_one_or_none()
+
+    if not section:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Bölüm bulunamadı."
+        )
+    
+    if section.course.author_id != author.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Yasaklı."
+        )
+    
+    await session.delete(section)
+    await session.commit()
+
+    return {"detail": "Bölüm başarıyla silindi."}
+
+    
