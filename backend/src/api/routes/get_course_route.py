@@ -3,6 +3,7 @@ from fastapi import Depends, APIRouter, status
 from backend.src.api.dependency import get_current_user
 from backend.src.database.models import User
 from backend.src.service.get_courses import add_course_by_user,search_course_by_title, user_courses
+from backend.src.service.get_sections import get_section_by_course
 from backend.src.api.schemas import CourseOut
 
 
@@ -22,7 +23,7 @@ async def add_course(
 
 
 
-@router.get("/search", response_model=list[CourseOut], status_code=status.HTTP_201_CREATED)
+@router.get("/search", response_model=list[CourseOut], status_code=status.HTTP_200_OK)
 async def search_course(
     title: str | None = None,
     session: AsyncSession = Depends(get_session)
@@ -30,10 +31,19 @@ async def search_course(
     return await search_course_by_title(session=session, title=title)
 
 
-@router.get("/user_courses", response_model=list[CourseOut], status_code=status.HTTP_201_CREATED)
+@router.get("/user_courses", response_model=list[CourseOut], status_code=status.HTTP_200_OK)
 async def get_user_courses(
     user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session)
 ):
     return await user_courses(session=session, user=user)
+
+
+@router.get("/{course_id}/section", status_code=status.HTTP_200_OK)
+async def get_sections(
+    course_id: int,
+    user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session)
+):
+    return await get_section_by_course(session=session, course_id=course_id, user=user)
     
