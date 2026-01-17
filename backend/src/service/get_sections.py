@@ -2,7 +2,6 @@ from fastapi import HTTPException, status
 from backend.src.database.db import AsyncSession
 from backend.src.database.models import Section, Course, UserCourses, User
 from sqlalchemy import select, exists
-from sqlalchemy.orm import selectinload
 
 
 async def get_section_by_course(
