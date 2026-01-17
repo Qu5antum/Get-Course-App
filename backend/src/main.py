@@ -5,6 +5,7 @@ from backend.src.database.db import init_models
 from backend.src.api.routes.user_route import router as user_route
 from backend.src.api.routes.create_course_route import router as create_course_route
 from backend.src.api.routes.get_course_route import router as course_route
+from backend.src.api.routes.review_route import router as review_router
 import asyncio
 import uvicorn
 
@@ -26,6 +27,7 @@ app.add_middleware(
 
 app.include_router(user_route)
 app.include_router(course_route)
+app.include_router(review_router)
 app.include_router(create_course_route)
 
 

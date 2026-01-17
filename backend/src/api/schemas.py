@@ -43,3 +43,8 @@ class CourseOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ReviewCreate(BaseModel):
+    comment: str | None = None
+    rate: int = Field(ge=1, le=5)
