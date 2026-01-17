@@ -28,6 +28,7 @@ async def create_new_section_by_course(
     
     section = Section(
         title=data.title,
+        position=data.position,
         course=course
     )
 

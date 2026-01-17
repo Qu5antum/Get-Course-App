@@ -35,7 +35,7 @@ async def get_section_by_course(
     result = await session.execute(
         select(Section)
         .where(Section.course_id == course_id)
-        .order_by(Section.id)
+        .order_by(Section.position)
     )
 
     return result.scalars().all()

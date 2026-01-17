@@ -21,18 +21,22 @@ class CourseUpdate(BaseModel):
 
 class SectionCreate(BaseModel):
     title: str = Field(min_length=5, max_length=75)
+    position: int
 
 
 class SectionUpdate(BaseModel):
     title: str | None = Field(None, min_length=5, max_length=75)
+    position: int | None = None
 
 
 class LessonCreate(BaseModel):
     description: str = Field(min_length=10)
+    position: int
 
 
 class LessonUpdate(BaseModel):
     description: str | None = Field(None, min_length=10)
+    position: int | None = None
 
 
 class CourseOut(BaseModel):

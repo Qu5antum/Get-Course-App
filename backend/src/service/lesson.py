@@ -33,6 +33,7 @@ async def create_new_lesson_by_section(
     
     lesson = Lesson(
         description=data.description,
+        position=data.position,
         section=section, 
     )
 

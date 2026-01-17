@@ -101,6 +101,7 @@ class Section(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     title: Mapped[str] = mapped_column(nullable=False)
+    position: Mapped[int] = mapped_column(nullable=False, unique=True)
 
     course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
     course: Mapped["Course"] = relationship(back_populates="sections")
@@ -111,11 +112,13 @@ class Section(Base):
     )
 
 
+
 class Lesson(Base):
     __tablename__ = "lessons"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     description: Mapped[str] = mapped_column(nullable=False)
+    position: Mapped[int] = mapped_column(nullable=False, unique=True)
 
     section_id: Mapped[int] = mapped_column(ForeignKey("sections.id"))
     section: Mapped["Section"] = relationship(back_populates="lessons")
