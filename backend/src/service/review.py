@@ -3,6 +3,7 @@ from sqlalchemy import select, exists
 from backend.src.database.db import AsyncSession
 from backend.src.database.models import User, Course, Review, UserCourses
 
+
 async def new_review_by_user(
         session: AsyncSession,
         course_id: int,
@@ -70,4 +71,28 @@ async def new_review_by_user(
     await session.refresh(new_review)
 
     return {"detail": "Yorum eklendi."}
+
+
+async def get_course_review_by_id(
+        session: AsyncSession,
+        course_id: int,
+):
+    course = await session.get(Course, course_id)
+
+    if not course: 
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Kurs bulunamadı."
+        )
+    
+    reviews = await session.execute(
+        select(Review)
+        .where(
+            Review.course_id == course_id
+        )
+    )
+
+    return reviews.scalars().all()
+
+    
 
