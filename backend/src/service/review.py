@@ -1,8 +1,7 @@
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, exists
 from backend.src.database.db import AsyncSession
-from backend.src.database.models import User, Course, Review
-
+from backend.src.database.models import User, Course, Review, UserCourses
 
 async def new_review_by_user(
         session: AsyncSession,
@@ -28,6 +27,22 @@ async def new_review_by_user(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Kursun yazarı sizsiniz, onu değerlendiremezsiniz."
         )
+
+    is_enrolled = await session.scalar(
+        select(
+            exists().where(
+                (UserCourses.user_id == user.id) &
+                (UserCourses.course_id == course.id)
+            )
+        )
+    )
+
+    if not is_enrolled:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Kursa kayıtlı değilseniz yorum yapamazsınız."
+        )
+    
     
     existing_review = await session.execute(
         select(Review)
