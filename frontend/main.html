@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>EduPlatform</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">EduPlatform</div>
+
+    <nav class="nav">
+        <a href="#home">Ana sayfa</a>
+        <a href="#about">Hakkında</a>
+        <a href="#courses">Kurslar</a>
+    </nav>
+
+    <div id="auth-buttons">
+        <a href="login.html" class="btn">Giriş</a>
+        <a href="register.html" class="btn secondary">Kayır ol</a>
+    </div>
+</header>
+
+<section id="home" class="hero">
+    <h1>Geliştiriciler için online eğitim</h1>
+    <p>Programlama öğrenin, projeler geliştirin ve kariyerinizi ilerletin.</p>
+    <a href="login.html" class="btn big">Kurslara git</a>
+</section>
+
+<section id="about" class="about">
+    <h2>Platform hakkında</h2>
+    <p>
+        EduPlatform, programlama öğrenmek için çevrimiçi bir platformdur.
+        Kurslar, ilerleme takibi ile bölümlere ve derslere ayrılmıştır.
+    </p>
+
+    <div class="features">
+        <div class="feature">📚 Yapılandırılmış kurslar</div>
+        <div class="feature">✅ İlerlemeyi izleme</div>
+        <div class="feature">⭐ Derecelendirmeler ve incelemeler</div>
+    </div>
+</section>
+
+<section id="courses" class="courses">
+    <h2>Популярные курсы</h2>
+    <div id="courses-list" class="courses-grid"></div>
+</section>
+
+<footer class="footer">
+    © 2026 EduPlatform. Her hakkı saklıdır.
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
