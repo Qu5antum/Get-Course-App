@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online kurslar</title>
+    <title>Online Kurslar</title>
     <link rel="stylesheet" href="css/course.css">
 </head>
 <body>
 
 <header class="header">
-    <div class="logo">Kurslar</div>
+    <div class="logo">Online Kurslar</div>
 
     <input
         id="searchInput"
@@ -17,18 +18,17 @@
         oninput="handleSearch()"
     />
 
-    <button class="btn">Ara</button>
+    <button class="btn" onclick="handleSearch()">Ara</button>
 </header>
 
 <main class="container">
-    <h1>Online kurslar</h1>
+    <h1>Mevcut Kurslar</h1>
 
     <div class="tabs">
-        <button class="tab">Kuslar</button>
+        <button class="tab active">Tüm Kurslar</button>
     </div>
 
-    <div id="courses" class="courses-grid">
-    </div>
+    <div id="courses" class="courses-grid"></div>
 </main>
 
 <script src="js/courses.js"></script>
