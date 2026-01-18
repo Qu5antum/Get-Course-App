@@ -40,7 +40,7 @@ async def get_lessons_by_section(
     result = await session.execute(
         select(Lesson)
         .where(Lesson.section_id == section_id)
-        .order_by(Lesson.position)
+        .order_by(Lesson.id)
     )
 
     return result.scalars().all()

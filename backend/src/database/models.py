@@ -72,13 +72,6 @@ class UserCourses(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
     course_id: Mapped[int] = mapped_column(ForeignKey('courses.id'), primary_key=True)
 
-    completed: Mapped[bool] = mapped_column(default=False)
-    
-    completed_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=func.now(),
-    )
-
 
 
 class Review(Base):
@@ -101,7 +94,7 @@ class Section(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     title: Mapped[str] = mapped_column(nullable=False)
-    position: Mapped[int] = mapped_column(nullable=False, unique=True)
+    position: Mapped[int] = mapped_column(nullable=False)
 
     course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
     course: Mapped["Course"] = relationship(back_populates="sections")
@@ -118,7 +111,30 @@ class Lesson(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, unique=True)
     description: Mapped[str] = mapped_column(nullable=False)
-    position: Mapped[int] = mapped_column(nullable=False, unique=True)
+    position: Mapped[int] = mapped_column(nullable=False)
 
     section_id: Mapped[int] = mapped_column(ForeignKey("sections.id"))
     section: Mapped["Section"] = relationship(back_populates="lessons")
+
+
+class UserLessonProgress(Base):
+    __tablename__ = "user_lesson_progress"
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        primary_key=True
+    )
+
+    lesson_id: Mapped[int] = mapped_column(
+        ForeignKey("lessons.id", ondelete="CASCADE"),
+        primary_key=True
+    )
+
+    completed: Mapped[bool] = mapped_column(default=False)
+
+    completed_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now()
+    )
+
+    user: Mapped["User"] = relationship()
+    lesson: Mapped["Lesson"] = relationship()
