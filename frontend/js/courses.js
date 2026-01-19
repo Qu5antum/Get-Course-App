@@ -36,7 +36,7 @@ async function loadCourses(title = "") {
                 <div class="course-footer">
                     <span>📘 ${course.lessons_count} dersler</span>
                     <button class="btn" onclick="openCourse(${course.id})">
-                        Aç
+                        Kursa kaydol
                     </button>
                 </div>
             `;
@@ -52,7 +52,9 @@ async function loadCourses(title = "") {
 }
 
 function openCourse(courseId) {
-    window.location.href = `course.html?id=${courseId}`;
+    // переход на страницу курса с id в query-параметре
+    console.log("Open course:", courseId);
+    window.location.href = `enroll.html?id=${courseId}`;
 }
 
 

@@ -1,0 +1,149 @@
+/* ===== Reset ===== */
+
+
+body {
+    margin: 0;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: white;
+    color: #111827;
+}
+
+/* ===== Header ===== */
+.header {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    padding: 28px 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* ===== Layout ===== */
+.container {
+    max-width: 1100px;
+    margin: 40px auto 40px; /* ⬅ карточки опустятся ниже */
+    padding: 0 16px;
+}
+
+/* ===== Error ===== */
+.error {
+    text-align: center;
+    color: #dc2626;
+    font-weight: 500;
+    margin: 20px 0;
+}
+
+/* ===== Courses Grid ===== */
+.courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* ===== Course Card ===== */
+.course-card {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;     
+    height: 100%;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Card Content ===== */
+.course-card h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+.course-card p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 16px;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===== Progress ===== */
+.progress-wrapper {
+    margin-bottom: 16px;
+}
+
+.progress-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.progress-bar {
+    height: 12px;
+    width: 100%;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    transition: width 0.3s ease;
+}
+
+.progress-percent {
+    font-size: 13px;
+    margin-top: 6px;
+    text-align: right;
+    color: #16a34a;
+    font-weight: 600;
+}
+
+/* ===== Button ===== */
+.course-card button {
+    margin-top: auto;
+    align-self: center;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.course-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.5);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .course-card {
+        padding: 18px;
+    }
+}

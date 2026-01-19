@@ -10,12 +10,14 @@ from backend.src.database.models import User
 async def create_new_course(
         session: AsyncSession,
         author: User,
-        data: str,
+        title: str,
+        description: str,
+        image_url: str
 ):
     course = Course(
-        title=data.title,
-        description=data.description,
-        image_url=data.image_url,
+        title=title,
+        description=description,
+        image_url=image_url,
         author=author
     )
 

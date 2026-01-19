@@ -51,6 +51,27 @@ body {
     transition: all 0.25s ease;
 }
 
+.userProgress{
+    padding: 12px 22px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.newCourse{
+    padding: 12px 22px;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: white;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
 .btn:hover {
     background: #16a34a;
     transform: translateY(-1px);

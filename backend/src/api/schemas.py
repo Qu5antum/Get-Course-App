@@ -48,6 +48,14 @@ class CourseOut(BaseModel):
     class Config:
         from_attributes = True
 
+class UserCourseOut(BaseModel):
+    title: str
+    description: str
+    image_url: str | None
+
+    class Config:
+        from_attributes = True
+
 
 class ReviewCreate(BaseModel):
     comment: str | None = None

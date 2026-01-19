@@ -16,14 +16,18 @@ router = APIRouter(
 
 @router.post("/courses", status_code=status.HTTP_201_CREATED)
 async def create_course(
-    data: CourseCreate,
+    title: str,
+    description: str,
+    image_url: str | None = None,
     user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session)
 ):
     return await create_new_course(
         session=session, 
         author=user, 
-        data=data
+        title=title,
+        description=description,
+        image_url=image_url
     )
 
 
